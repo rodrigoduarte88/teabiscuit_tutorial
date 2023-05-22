@@ -1,0 +1,86 @@
+---
+title: "TEA-BISCUIT tutorial"
+author: "by Rodrigo R. R. Duarte (rodrigo.duarte@kcl.ac.uk)"
+date: "2023-02-26"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# log into cluster
+`ssh create`
+
+# request interactive node
+`srun -p cpu,interruptible_cpu -n 1 --mem=50000 --time 8:00:00  --pty /bin/bash`
+
+# create an rTWAS folder and enter it 
+`mkdir -p ~/rtwas`
+`cd ~/rtwas`
+
+# create fusion_final environment
+`wget https://raw.githubusercontent.com/rodrigoduarte88/neuro_rTWAS/main/fusion_final_environment.yml`
+`conda env create -f fusion_final_environment.yml`
+
+# create ldsc_R environment
+`wget https://www.dropbox.com/s/4d8pd8yie3wconv/ldsc_R_environment.yml`
+`conda env create -f ldsc_R_environment.yml`
+
+# download GWAS summary statistics from the PGC website (European subset, schizophrenia)
+`wget https://figshare.com/ndownloader/files/34517828 -O schizophrenia_EUR.tsv.gz`
+
+# Download reference panel (1000 Genomes, European subset)
+`wget https://www.dropbox.com/s/oxt4sbryxxjpg1d/1000G_ref_panel.tgz`
+
+# Download rTWAS weights for FUSION
+`wget https://www.dropbox.com/s/fflnr51gc34sx2m/FUSION_weights.tgz`
+
+# Download FUSION package
+`wget https://github.com/gusevlab/fusion_twas/archive/master.zip -O fusion.zip`
+
+# decompress files 
+`gunzip schizophrenia_EUR.tsv.gz`
+`tar zxvf FUSION_weights.tgz`
+`tar zxvf 1000G_ref_panel.tgz`
+`unzip fusion.zip`
+
+# explore and pre-process GWAS results
+`vim schizophrenia_EUR.tsv`
+`sed -i '/^#/ d' schizophrenia_EUR.tsv`
+
+# use munge_sumstats.py script from the ldsc pipeline to remove rare variants or that offend typical QC criteria (https://github.com/bulik/ldsc)
+`conda activate ldsc_R`
+`munge_sumstats.py --sumstats schizophrenia_EUR.tsv --out schizophrenia.processed --snp ID --a1 A1 --a2 A2 --p PVAL --N-col NEFF --info IMPINFO --chunksize 500000`
+
+# run the rTWAS
+`conda activate fusion_final`
+`Rscript --verbose --no-save fusion_twas-master/FUSION.assoc_test.R \
+--sumstats schizophrenia.processed.sumstats.gz \
+--weights wrapped/CMC.pos \
+--weights_dir wrapped \
+--ref_ld_chr LDREF_harmonized/1000G.EUR. \
+--chr 20 \
+--out schizophrenia.chr20.dat`
+
+# how many features are expressed on chromosome 20? # 176
+`wc -l schizophrenia.chr20.dat`
+
+# Extract Bonferroni significant features. 
+`cat schizophrenia.chr20.dat | awk 'NR == 1 || $NF < 0.05/176' > schizophrenia.chr20.dat.Sig`
+
+# run the conditional analysis
+`Rscript fusion_twas-master/FUSION.post_process.R \
+--input schizophrenia.chr20.dat.Sig \
+--sumstats  schizophrenia.processed.sumstats.gz \
+--ref_ld_chr LDREF_harmonized/1000G.EUR. \
+--out schizophrenia.chr20.dat.Sig.PostProc.dat \
+--chr 20 \
+--save_loci \
+--plot \
+--locus_win 100000` 
+
+# Analyse schizophrenia.chr22.PostProc.dat and plots!
+
+
