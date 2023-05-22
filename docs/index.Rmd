@@ -9,69 +9,81 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-
 # log into cluster
-`ssh create`
+ssh create
 
 # request interactive node
-`srun -p cpu,interruptible_cpu -n 1 --mem=50000 --time 8:00:00  --pty /bin/bash`
+srun -p cpu,interruptible_cpu -n 1 --mem=50000 --time 8:00:00  --pty /bin/bash
 
 # create an rTWAS folder and enter it 
-`mkdir -p ~/rtwas`
-`cd ~/rtwas`
+mkdir -p ~/rtwas 
+cd ~/rtwas
 
 # create fusion_final environment
-`wget https://raw.githubusercontent.com/rodrigoduarte88/neuro_rTWAS/main/fusion_final_environment.yml`
-`conda env create -f fusion_final_environment.yml`
+wget https://raw.githubusercontent.com/rodrigoduarte88/neuro_rTWAS/main/fusion_final_environment.yml
+conda env create -f fusion_final_environment.yml
+
+# change name of some libraries
+cd ~/miniconda3/envs/fusion_final/lib
+mv liblapack.so libRlapack.so
+mv libblas.so libRblas.so
+
+# start R and manually install plink2R library
+conda activate fusion_final
+R
+devtools::install_github("carbocation/plink2R/plink2R", ref="carbocation-permit-r361")
 
 # create ldsc_R environment
-`wget https://www.dropbox.com/s/4d8pd8yie3wconv/ldsc_R_environment.yml`
-`conda env create -f ldsc_R_environment.yml`
+wget https://www.dropbox.com/s/4d8pd8yie3wconv/ldsc_R_environment.yml
+conda env create -f ldsc_R_environment.yml
 
 # download GWAS summary statistics from the PGC website (European subset, schizophrenia)
-`wget https://figshare.com/ndownloader/files/34517828 -O schizophrenia_EUR.tsv.gz`
+wget https://figshare.com/ndownloader/files/34517828 -O schizophrenia_EUR.tsv.gz
 
 # Download reference panel (1000 Genomes, European subset)
-`wget https://www.dropbox.com/s/oxt4sbryxxjpg1d/1000G_ref_panel.tgz`
+wget https://www.dropbox.com/s/oxt4sbryxxjpg1d/1000G_ref_panel.tgz
 
 # Download rTWAS weights for FUSION
-`wget https://www.dropbox.com/s/fflnr51gc34sx2m/FUSION_weights.tgz`
+wget https://www.dropbox.com/s/fflnr51gc34sx2m/FUSION_weights.tgz
 
 # Download FUSION package
-`wget https://github.com/gusevlab/fusion_twas/archive/master.zip -O fusion.zip`
+wget https://github.com/gusevlab/fusion_twas/archive/master.zip -O fusion.zip
+
+# Download ldsc software
+git clone https://github.com/bulik/ldsc.git
 
 # decompress files 
-`gunzip schizophrenia_EUR.tsv.gz`
-`tar zxvf FUSION_weights.tgz`
-`tar zxvf 1000G_ref_panel.tgz`
-`unzip fusion.zip`
+gunzip schizophrenia_EUR.tsv.gz
+tar zxvf FUSION_weights.tgz
+tar zxvf 1000G_ref_panel.tgz
+unzip fusion.zip
 
 # explore and pre-process GWAS results
-`vim schizophrenia_EUR.tsv`
-`sed -i '/^#/ d' schizophrenia_EUR.tsv`
+vim schizophrenia_EUR.tsv
+sed -i '/^#/ d' schizophrenia_EUR.tsv
 
 # use munge_sumstats.py script from the ldsc pipeline to remove rare variants or that offend typical QC criteria (https://github.com/bulik/ldsc)
-`conda activate ldsc_R`
-`munge_sumstats.py --sumstats schizophrenia_EUR.tsv --out schizophrenia.processed --snp ID --a1 A1 --a2 A2 --p PVAL --N-col NEFF --info IMPINFO --chunksize 500000`
+conda activate ldsc_R
+~/ldsc/munge_sumstats.py --sumstats schizophrenia_EUR.tsv --out schizophrenia.processed --snp ID --a1 A1 --a2 A2 --p PVAL --N-col NEFF --info IMPINFO --chunksize 500000
 
 # run the rTWAS
-`conda activate fusion_final`
-`Rscript --verbose --no-save fusion_twas-master/FUSION.assoc_test.R \
+conda activate fusion_final
+Rscript --verbose --no-save fusion_twas-master/FUSION.assoc_test.R \
 --sumstats schizophrenia.processed.sumstats.gz \
 --weights wrapped/CMC.pos \
 --weights_dir wrapped \
 --ref_ld_chr LDREF_harmonized/1000G.EUR. \
 --chr 20 \
---out schizophrenia.chr20.dat`
+--out schizophrenia.chr20.dat
 
-# how many features are expressed on chromosome 20? # 176
-`wc -l schizophrenia.chr20.dat`
+# how many features are expressed on chromosome 20?
+wc -l schizophrenia.chr20.dat # 177 - header = 176 expression features
 
 # Extract Bonferroni significant features. 
-`cat schizophrenia.chr20.dat | awk 'NR == 1 || $NF < 0.05/176' > schizophrenia.chr20.dat.Sig`
+cat schizophrenia.chr20.dat | awk 'NR == 1 || $NF < 0.05/176' > schizophrenia.chr20.dat.Sig
 
 # run the conditional analysis
-`Rscript fusion_twas-master/FUSION.post_process.R \
+Rscript fusion_twas-master/FUSION.post_process.R \
 --input schizophrenia.chr20.dat.Sig \
 --sumstats  schizophrenia.processed.sumstats.gz \
 --ref_ld_chr LDREF_harmonized/1000G.EUR. \
@@ -79,7 +91,7 @@ knitr::opts_chunk$set(echo = TRUE)
 --chr 20 \
 --save_loci \
 --plot \
---locus_win 100000` 
+--locus_win 100000 
 
 # Analyse schizophrenia.chr22.PostProc.dat and plots!
 
