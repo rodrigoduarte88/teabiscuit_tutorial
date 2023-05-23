@@ -423,12 +423,17 @@ unzip fusion.zip</code></pre>
 <p><code>tail schizophrenia_EUR.tsv</code></p>
 </div>
 <div id="remove-all-lines-that-start-with" class="section level1">
-<h1>Remove all lines that start with #</h1>
+<h1>Remove all lines that start with <code>#</code></h1>
 <p><code>sed -i &#39;/^#/ d&#39; schizophrenia_EUR.tsv</code></p>
 </div>
-<div id="use-munge_sumstats.py-script-from-the-ldsc-pipeline-to-remove-rare-variants-or-that-offend-typical-qc-criteria-httpsgithub.combulikldsc" class="section level1">
-<h1>use munge_sumstats.py script from the ldsc pipeline to remove rare
-variants or that offend typical QC criteria (<a href="https://github.com/bulik/ldsc" class="uri">https://github.com/bulik/ldsc</a>)</h1>
+<div id="check-file-again-to-see-how-it-looks" class="section level1">
+<h1>Check file again, to see how it looks</h1>
+<p><code>head schizophrenia_EUR.tsv</code></p>
+</div>
+<div id="use-munge_sumstats.py-script-from-the-ldsc-pipeline-to-remove-rare-variants-or-other-variants-that-offend-typical-qc-criteria-httpsgithub.combulikldsc" class="section level1">
+<h1>use <code>munge_sumstats.py</code> script from the <code>ldsc</code>
+pipeline to remove rare variants or other variants that offend typical
+QC criteria (<a href="https://github.com/bulik/ldsc" class="uri">https://github.com/bulik/ldsc</a>)</h1>
 <pre class="bash"><code>conda activate ldsc_R 
 
 ~/ldsc/munge_sumstats.py –sumstats schizophrenia_EUR.tsv –out schizophrenia.processed –snp ID –a1 A1 –a2 A2 –p PVAL –N-col NEFF –info IMPINFO –chunksize 500000

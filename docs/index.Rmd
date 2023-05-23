@@ -87,11 +87,15 @@ unzip fusion.zip
 
 `tail schizophrenia_EUR.tsv`
 
-# Remove all lines that start with \#
+# Remove all lines that start with `#`
 
 `sed -i '/^#/ d' schizophrenia_EUR.tsv`
 
-# use munge_sumstats.py script from the ldsc pipeline to remove rare variants or that offend typical QC criteria (<https://github.com/bulik/ldsc>)
+# Check file again, to see how it looks 
+
+`head schizophrenia_EUR.tsv`
+
+# use `munge_sumstats.py` script from the `ldsc` pipeline to remove rare variants or other variants that offend typical QC criteria (<https://github.com/bulik/ldsc>)
 
 ```{bash, eval=F}
 conda activate ldsc_R 
