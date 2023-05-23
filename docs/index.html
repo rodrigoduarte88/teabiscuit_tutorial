@@ -357,111 +357,110 @@ display: none;
 </div>
 
 
-<div id="log-into-cluster" class="section level1">
-<h1>log into cluster</h1>
-<p>ssh create</p>
-</div>
-<div id="request-interactive-node" class="section level1">
-<h1>request interactive node</h1>
-<p>srun -p cpu,interruptible_cpu -n 1 –mem=50000 –time 8:00:00 –pty
-/bin/bash</p>
-</div>
 <div id="create-an-rtwas-folder-and-enter-it" class="section level1">
 <h1>create an rTWAS folder and enter it</h1>
-<p>mkdir -p ~/rtwas cd ~/rtwas</p>
+<p><code>mkdir -p ~/rtwas cd ~/rtwas</code></p>
 </div>
 <div id="create-fusion_final-environment" class="section level1">
 <h1>create fusion_final environment</h1>
-<p>wget <a href="https://raw.githubusercontent.com/rodrigoduarte88/neuro_rTWAS/main/fusion_final_environment.yml" class="uri">https://raw.githubusercontent.com/rodrigoduarte88/neuro_rTWAS/main/fusion_final_environment.yml</a>
-conda env create -f fusion_final_environment.yml</p>
+<p><code>wget https://raw.githubusercontent.com/rodrigoduarte88/neuro_rTWAS/main/fusion_final_environment.yml</code></p>
+<p><code>conda env create -f fusion_final_environment.yml</code></p>
 </div>
 <div id="change-name-of-some-libraries" class="section level1">
 <h1>change name of some libraries</h1>
-<p>cd ~/miniconda3/envs/fusion_final/lib mv liblapack.so libRlapack.so
-mv libblas.so libRblas.so</p>
+<pre class="bash"><code>cd ~/miniconda3/envs/fusion_final/lib 
+mv liblapack.so libRlapack.so 
+mv libblas.so libRblas.so</code></pre>
 </div>
 <div id="start-r-and-manually-install-plink2r-library" class="section level1">
 <h1>start R and manually install plink2R library</h1>
-<p>conda activate fusion_final R
-devtools::install_github(“carbocation/plink2R/plink2R”,
-ref=“carbocation-permit-r361”)</p>
+<pre class="bash"><code>conda activate fusion_final
+
+R
+
+devtools::install_github(&quot;carbocation/plink2R/plink2R&quot;, ref=&quot;carbocation-permit-r361&quot;)</code></pre>
 </div>
 <div id="create-ldsc_r-environment" class="section level1">
 <h1>create ldsc_R environment</h1>
-<p>wget <a href="https://www.dropbox.com/s/4d8pd8yie3wconv/ldsc_R_environment.yml" class="uri">https://www.dropbox.com/s/4d8pd8yie3wconv/ldsc_R_environment.yml</a>
-conda env create -f ldsc_R_environment.yml</p>
+<pre class="bash"><code>wget https://www.dropbox.com/s/4d8pd8yie3wconv/ldsc_R_environment.yml 
+
+conda env create -f ldsc_R_environment.yml</code></pre>
 </div>
 <div id="download-gwas-summary-statistics-from-the-pgc-website-european-subset-schizophrenia" class="section level1">
 <h1>download GWAS summary statistics from the PGC website (European
 subset, schizophrenia)</h1>
-<p>wget <a href="https://figshare.com/ndownloader/files/34517828" class="uri">https://figshare.com/ndownloader/files/34517828</a> -O
-schizophrenia_EUR.tsv.gz</p>
+<p><code>wget https://figshare.com/ndownloader/files/34517828 -O schizophrenia_EUR.tsv.gz</code></p>
 </div>
 <div id="download-reference-panel-1000-genomes-european-subset" class="section level1">
 <h1>Download reference panel (1000 Genomes, European subset)</h1>
-<p>wget <a href="https://www.dropbox.com/s/oxt4sbryxxjpg1d/1000G_ref_panel.tgz" class="uri">https://www.dropbox.com/s/oxt4sbryxxjpg1d/1000G_ref_panel.tgz</a></p>
+<p><code>wget https://www.dropbox.com/s/oxt4sbryxxjpg1d/1000G_ref_panel.tgz</code></p>
 </div>
 <div id="download-rtwas-weights-for-fusion" class="section level1">
 <h1>Download rTWAS weights for FUSION</h1>
-<p>wget <a href="https://www.dropbox.com/s/fflnr51gc34sx2m/FUSION_weights.tgz" class="uri">https://www.dropbox.com/s/fflnr51gc34sx2m/FUSION_weights.tgz</a></p>
+<p><code>wget https://www.dropbox.com/s/fflnr51gc34sx2m/FUSION_weights.tgz</code></p>
 </div>
 <div id="download-fusion-package" class="section level1">
 <h1>Download FUSION package</h1>
-<p>wget <a href="https://github.com/gusevlab/fusion_twas/archive/master.zip" class="uri">https://github.com/gusevlab/fusion_twas/archive/master.zip</a>
--O fusion.zip</p>
+<p><code>wget https://github.com/gusevlab/fusion_twas/archive/master.zip -O fusion.zip</code></p>
 </div>
 <div id="download-ldsc-software" class="section level1">
 <h1>Download ldsc software</h1>
-<p>git clone <a href="https://github.com/bulik/ldsc.git" class="uri">https://github.com/bulik/ldsc.git</a></p>
+<p><code>git clone https://github.com/bulik/ldsc.git</code></p>
 </div>
 <div id="decompress-files" class="section level1">
 <h1>decompress files</h1>
-<p>gunzip schizophrenia_EUR.tsv.gz tar zxvf FUSION_weights.tgz tar zxvf
-1000G_ref_panel.tgz unzip fusion.zip</p>
+<pre class="bash"><code>gunzip schizophrenia_EUR.tsv.gz 
+tar zxvf FUSION_weights.tgz 
+tar zxvf 1000G_ref_panel.tgz 
+unzip fusion.zip</code></pre>
 </div>
 <div id="explore-and-pre-process-gwas-results" class="section level1">
 <h1>explore and pre-process GWAS results</h1>
-<p>vim schizophrenia_EUR.tsv sed -i ‘/^#/ d’ schizophrenia_EUR.tsv</p>
+<p><code>vim schizophrenia_EUR.tsv sed -i &#39;/^#/ d&#39; schizophrenia_EUR.tsv</code></p>
 </div>
 <div id="use-munge_sumstats.py-script-from-the-ldsc-pipeline-to-remove-rare-variants-or-that-offend-typical-qc-criteria-httpsgithub.combulikldsc" class="section level1">
 <h1>use munge_sumstats.py script from the ldsc pipeline to remove rare
 variants or that offend typical QC criteria (<a href="https://github.com/bulik/ldsc" class="uri">https://github.com/bulik/ldsc</a>)</h1>
-<p>conda activate ldsc_R ~/ldsc/munge_sumstats.py –sumstats
-schizophrenia_EUR.tsv –out schizophrenia.processed –snp ID –a1 A1 –a2 A2
-–p PVAL –N-col NEFF –info IMPINFO –chunksize 500000</p>
+<pre class="bash"><code>conda activate ldsc_R 
+
+~/ldsc/munge_sumstats.py –sumstats schizophrenia_EUR.tsv –out schizophrenia.processed –snp ID –a1 A1 –a2 A2 –p PVAL –N-col NEFF –info IMPINFO –chunksize 500000
+</code></pre>
 </div>
 <div id="run-the-rtwas" class="section level1">
 <h1>run the rTWAS</h1>
-<p>conda activate fusion_final Rscript –verbose –no-save
-fusion_twas-master/FUSION.assoc_test.R<br />
-–sumstats schizophrenia.processed.sumstats.gz<br />
-–weights wrapped/CMC.pos<br />
-–weights_dir wrapped<br />
-–ref_ld_chr LDREF_harmonized/1000G.EUR.<br />
-–chr 20<br />
-–out schizophrenia.chr20.dat</p>
+<pre class="bash"><code>conda activate fusion_final
+
+Rscript --verbose --no-save fusion_twas-master/FUSION.assoc_test.R \
+--sumstats schizophrenia.processed.sumstats.gz \
+--weights wrapped/CMC.pos \
+--weights_dir wrapped \
+--ref_ld_chr LDREF_harmonized/1000G.EUR. \
+--chr 20 \
+--out schizophrenia.chr20.dat
+</code></pre>
 </div>
 <div id="how-many-features-are-expressed-on-chromosome-20" class="section level1">
 <h1>how many features are expressed on chromosome 20?</h1>
-<p>wc -l schizophrenia.chr20.dat # 177 - header = 176 expression
-features</p>
+<p><code>wc -l schizophrenia.chr20.dat</code> # 177 - header = 176
+expression features</p>
 </div>
 <div id="extract-bonferroni-significant-features." class="section level1">
 <h1>Extract Bonferroni significant features.</h1>
-<p>cat schizophrenia.chr20.dat | awk ‘NR == 1 || $NF &lt; 0.05/176’ &gt;
-schizophrenia.chr20.dat.Sig</p>
+<p><code>cat schizophrenia.chr20.dat | awk &#39;NR == 1 || $NF &lt; 0.05/176&#39; &gt; schizophrenia.chr20.dat.Sig</code></p>
 </div>
 <div id="run-the-conditional-analysis" class="section level1">
 <h1>run the conditional analysis</h1>
-<p>Rscript fusion_twas-master/FUSION.post_process.R<br />
-–input schizophrenia.chr20.dat.Sig<br />
-–sumstats schizophrenia.processed.sumstats.gz<br />
-–ref_ld_chr LDREF_harmonized/1000G.EUR.<br />
-–out schizophrenia.chr20.dat.Sig.PostProc.dat<br />
-–chr 20<br />
-–save_loci<br />
-–plot<br />
-–locus_win 100000</p>
+<pre class="bash"><code>
+Rscript fusion_twas-master/FUSION.post_process.R \
+--input schizophrenia.chr20.dat.Sig \
+--sumstats  schizophrenia.processed.sumstats.gz \
+--ref_ld_chr LDREF_harmonized/1000G.EUR. \
+--out schizophrenia.chr20.dat.Sig.PostProc.dat \
+--chr 20 \
+--save_loci \
+--plot \
+--locus_win 100000 
+</code></pre>
 </div>
 <div id="analyse-schizophrenia.chr22.postproc.dat-and-plots" class="section level1">
 <h1>Analyse schizophrenia.chr22.PostProc.dat and plots!</h1>
