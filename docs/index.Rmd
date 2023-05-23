@@ -42,6 +42,11 @@ R
 # Then install plink2R
 devtools::install_github("carbocation/plink2R/plink2R", ref="carbocation-permit-r361")
 
+# install mystical libraries
+install.packages(c("optparse", "doMC"))
+
+# quit R
+quit("no")
 ```
 
 ## Create `ldsc` environment 
