@@ -357,92 +357,100 @@ display: none;
 </div>
 
 
-<div id="create-an-rtwas-folder-and-enter-it" class="section level1">
-<h1>Create an rTWAS folder and enter it</h1>
-<p><code>mkdir -p ~/rtwas</code></p>
-<p><code>cd ~/rtwas</code></p>
-</div>
-<div id="create-fusion_final-environment" class="section level1">
-<h1>Create fusion_final environment</h1>
-<p><code>wget https://raw.githubusercontent.com/rodrigoduarte88/neuro_rTWAS/main/fusion_final_environment.yml</code></p>
-<p><code>conda env create -f fusion_final_environment.yml</code></p>
-</div>
-<div id="change-name-of-some-libraries" class="section level1">
-<h1>Change name of some libraries</h1>
-<pre class="bash"><code>cd ~/miniconda3/envs/fusion_final/lib 
-mv liblapack.so libRlapack.so 
-mv libblas.so libRblas.so</code></pre>
-</div>
-<div id="start-r-and-manually-install-plink2r-library" class="section level1">
-<h1>Start R and manually install plink2R library</h1>
-<pre class="bash"><code>conda activate fusion_final
+<div id="set-up-environments-fusion_final-and-ldsc" class="section level1">
+<h1>1) Set up environments (<code>fusion_final</code> and
+<code>ldsc</code>)</h1>
+<div id="create-fusion_final-environment" class="section level2">
+<h2>Create <code>fusion_final</code> environment</h2>
+<pre class="bash"><code>
+# Create an rTWAS folder and enter it
+mkdir -p ~/rtwas 
+cd ~/rtwas
 
+# Download yml file for conda
+wget https://raw.githubusercontent.com/rodrigoduarte88/neuro_rTWAS/main/fusion_final_environment.yml 
+
+# Create conda environment called fusion_final
+conda env create -f fusion_final_environment.yml
+
+# Change name of some libraries for conda
+cd ~/miniconda3/envs/fusion_final/lib 
+mv liblapack.so libRlapack.so 
+mv libblas.so libRblas.so
+
+# Start R and manually install plink2R library. First, activate environment
+conda activate fusion_final
+
+# Then start R
 R
 
-devtools::install_github(&quot;carbocation/plink2R/plink2R&quot;, ref=&quot;carbocation-permit-r361&quot;)</code></pre>
+# Then install plink2R
+devtools::install_github(&quot;carbocation/plink2R/plink2R&quot;, ref=&quot;carbocation-permit-r361&quot;)
+</code></pre>
 </div>
-<div id="create-ldsc_r-environment-from-rtwas-folder" class="section level1">
-<h1>Create ldsc_R environment from ~/rtwas folder</h1>
+<div id="create-ldsc-environment" class="section level2">
+<h2>Create <code>ldsc</code> environment</h2>
 <pre class="bash"><code>cd ~/rtwas
 
 wget https://www.dropbox.com/s/9cvovht5hbp5mho/ldsc_environment.yml
 
 conda env create -f ldsc_environment.yml</code></pre>
 </div>
-<div id="download-gwas-summary-statistics-from-the-pgc-website-european-subset-schizophrenia" class="section level1">
-<h1>Download GWAS summary statistics from the PGC website (European
-subset, schizophrenia)</h1>
-<p><code>wget https://figshare.com/ndownloader/files/34517828 -O schizophrenia_EUR.tsv.gz</code></p>
 </div>
-<div id="download-reference-panel-1000-genomes-european-subset" class="section level1">
-<h1>Download reference panel (1000 Genomes, European subset)</h1>
-<p><code>wget https://www.dropbox.com/s/oxt4sbryxxjpg1d/1000G_ref_panel.tgz</code></p>
-</div>
-<div id="download-rtwas-weights-for-fusion" class="section level1">
-<h1>Download rTWAS weights for FUSION</h1>
-<p><code>wget https://www.dropbox.com/s/fflnr51gc34sx2m/FUSION_weights.tgz</code></p>
-</div>
-<div id="download-fusion-package" class="section level1">
-<h1>Download FUSION package</h1>
-<p><code>wget https://github.com/gusevlab/fusion_twas/archive/master.zip -O fusion.zip</code></p>
-</div>
-<div id="download-ldsc-software" class="section level1">
-<h1>Download ldsc software</h1>
-<p><code>git clone https://github.com/bulik/ldsc.git</code></p>
-</div>
-<div id="decompress-files" class="section level1">
-<h1>Decompress files</h1>
-<pre class="bash"><code>gunzip schizophrenia_EUR.tsv.gz 
+<div id="download-required-files-and-decompress" class="section level1">
+<h1>2) Download required files and decompress</h1>
+<pre class="bash"><code>
+# Download GWAS summary statistics from the PGC website (European subset, schizophrenia)
+wget https://figshare.com/ndownloader/files/34517828 -O schizophrenia_EUR.tsv.gz
+
+# Download reference panel (1000 Genomes, European subset)
+wget https://www.dropbox.com/s/oxt4sbryxxjpg1d/1000G_ref_panel.tgz
+
+# Download rTWAS weights for FUSION
+wget https://www.dropbox.com/s/fflnr51gc34sx2m/FUSION_weights.tgz
+
+# Download FUSION package
+wget https://github.com/gusevlab/fusion_twas/archive/master.zip -O fusion.zip
+
+# Download ldsc software
+git clone https://github.com/bulik/ldsc.git 
+
+# Decompress files
+gunzip schizophrenia_EUR.tsv.gz 
 tar zxvf FUSION_weights.tgz 
 tar zxvf 1000G_ref_panel.tgz 
-unzip fusion.zip</code></pre>
+unzip fusion.zip
+</code></pre>
 </div>
 <div id="explore-and-pre-process-gwas-results" class="section level1">
-<h1>explore and pre-process GWAS results</h1>
-<p><code>head -100 schizophrenia_EUR.tsv</code></p>
-<p><code>tail schizophrenia_EUR.tsv</code></p>
-</div>
-<div id="remove-all-lines-that-start-with" class="section level1">
-<h1>Remove all lines that start with <code>#</code></h1>
-<p><code>sed -i &#39;/^#/ d&#39; schizophrenia_EUR.tsv</code></p>
-</div>
-<div id="check-file-again-to-see-how-it-looks" class="section level1">
-<h1>Check file again, to see how it looks</h1>
-<p><code>head schizophrenia_EUR.tsv</code></p>
-</div>
-<div id="use-munge_sumstats.py-script-from-the-ldsc-pipeline-to-remove-rare-variants-or-other-variants-that-offend-typical-qc-criteria-httpsgithub.combulikldsc" class="section level1">
-<h1>use <code>munge_sumstats.py</code> script from the <code>ldsc</code>
-pipeline to remove rare variants or other variants that offend typical
-QC criteria (<a href="https://github.com/bulik/ldsc" class="uri">https://github.com/bulik/ldsc</a>)</h1>
-<pre class="bash"><code>conda activate ldsc 
+<h1>3) Explore and pre-process GWAS results</h1>
+<pre class="bash"><code>
+# Explore first few lines
+head schizophrenia_EUR.tsv 
+
+# Explore first 100 lines
+head -100 schizophrenia_EUR.tsv 
+
+# Explore last few lines
+tail schizophrenia_EUR.tsv
+
+# Remove all lines starting with hashtag (#)
+sed -i &#39;/^#/ d&#39; schizophrenia_EUR.tsv
+
+# Check file again, to see how it looks 
+head schizophrenia_EUR.tsv 
+
+# Use munge_sumstats.py script from the ldsc pipeline to remove rare variants or other variants that offend typical QC criteria (see https://github.com/bulik/ldsc)
+conda activate ldsc 
 
 ~/rtwas/ldsc/munge_sumstats.py --sumstats schizophrenia_EUR.tsv --out schizophrenia.processed --snp ID --a1 A1 --a2 A2 --p PVAL --N-col NEFF --info IMPINFO --chunksize 500000
 </code></pre>
 </div>
 <div id="run-the-rtwas" class="section level1">
-<h1>run the rTWAS</h1>
+<h1>4) Run the rTWAS</h1>
 <pre class="bash"><code>conda activate fusion_final
 
+# Running the initial analysis
 Rscript --verbose --no-save fusion_twas-master/FUSION.assoc_test.R \
 --sumstats schizophrenia.processed.sumstats.gz \
 --weights wrapped/CMC.pos \
@@ -450,20 +458,14 @@ Rscript --verbose --no-save fusion_twas-master/FUSION.assoc_test.R \
 --ref_ld_chr LDREF_harmonized/1000G.EUR. \
 --chr 20 \
 --out schizophrenia.chr20.dat
-</code></pre>
-</div>
-<div id="how-many-features-are-expressed-on-chromosome-20" class="section level1">
-<h1>how many features are expressed on chromosome 20?</h1>
-<p><code>wc -l schizophrenia.chr20.dat</code> # 177 - header = 176
-expression features</p>
-</div>
-<div id="extract-bonferroni-significant-features." class="section level1">
-<h1>Extract Bonferroni significant features.</h1>
-<p><code>cat schizophrenia.chr20.dat | awk &#39;NR == 1 || $NF &lt; 0.05/176&#39; &gt; schizophrenia.chr20.dat.Sig</code></p>
-</div>
-<div id="run-the-conditional-analysis" class="section level1">
-<h1>run the conditional analysis</h1>
-<pre class="bash"><code>
+
+# How many features are expressed on chromosome 20?
+wc -l schizophrenia.chr20.dat # 177 - header = 176 expression features
+
+# Extract Bonferroni significant features.
+cat schizophrenia.chr20.dat | awk &#39;NR == 1 || $NF &lt; 0.05/176&#39; &gt; schizophrenia.chr20.dat.Sig
+
+# Run the conditional analysis
 Rscript fusion_twas-master/FUSION.post_process.R \
 --input schizophrenia.chr20.dat.Sig \
 --sumstats  schizophrenia.processed.sumstats.gz \
@@ -474,9 +476,10 @@ Rscript fusion_twas-master/FUSION.post_process.R \
 --plot \
 --locus_win 100000 
 </code></pre>
+<div id="analyse-schizophrenia.chr22.postproc.dat-other-resulting-files-and-plots" class="section level4">
+<h4>Analyse schizophrenia.chr22.PostProc.dat, other resulting files, and
+plots!</h4>
 </div>
-<div id="analyse-schizophrenia.chr22.postproc.dat-and-plots" class="section level1">
-<h1>Analyse schizophrenia.chr22.PostProc.dat and plots!</h1>
 </div>
 
 
