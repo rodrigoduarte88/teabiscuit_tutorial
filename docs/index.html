@@ -394,7 +394,11 @@ devtools::install_github(&quot;carbocation/plink2R/plink2R&quot;, ref=&quot;carb
 
 wget https://www.dropbox.com/s/9cvovht5hbp5mho/ldsc_environment.yml
 
-conda env create -f ldsc_environment.yml</code></pre>
+conda env create -f ldsc_environment.yml
+
+# Adapt munge_sumstats.py script to ask it to run python2, not &quot;any python available&quot;
+sed -i &#39;s|#!/usr/bin/env python|#!/usr/bin/env python2|g&#39; ~/rtwas/ldsc/munge_sumstats.py 
+</code></pre>
 </div>
 </div>
 <div id="download-required-files-and-decompress" class="section level1">

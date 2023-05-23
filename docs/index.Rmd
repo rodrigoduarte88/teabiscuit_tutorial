@@ -52,6 +52,10 @@ cd ~/rtwas
 wget https://www.dropbox.com/s/9cvovht5hbp5mho/ldsc_environment.yml
 
 conda env create -f ldsc_environment.yml
+
+# Adapt munge_sumstats.py script to ask it to run python2, not "any python available"
+sed -i 's|#!/usr/bin/env python|#!/usr/bin/env python2|g' ~/rtwas/ldsc/munge_sumstats.py 
+
 ```
 
 # 2) Download required files and decompress 
