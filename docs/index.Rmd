@@ -100,7 +100,7 @@ unzip fusion.zip
 ```{bash, eval=F}
 conda activate ldsc_R 
 
-~/ldsc/munge_sumstats.py –sumstats schizophrenia_EUR.tsv –out schizophrenia.processed –snp ID –a1 A1 –a2 A2 –p PVAL –N-col NEFF –info IMPINFO –chunksize 500000
+~/ldsc/munge_sumstats.py –-sumstats schizophrenia_EUR.tsv -–out schizophrenia.processed -–snp ID -–a1 A1 -–a2 A2 -–p PVAL -–N-col NEFF -–info IMPINFO -–chunksize 500000
 
 ```
 
