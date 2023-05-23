@@ -8,9 +8,7 @@ editor_options:
     wrap: 72
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+
 
 # Create an rTWAS folder and enter it
 
@@ -26,7 +24,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Change name of some libraries
 
-```{bash, eval=F}
+
+```bash
 cd ~/miniconda3/envs/fusion_final/lib 
 mv liblapack.so libRlapack.so 
 mv libblas.so libRblas.so
@@ -34,7 +33,8 @@ mv libblas.so libRblas.so
 
 # Start R and manually install plink2R library
 
-```{bash, eval=F}
+
+```bash
 conda activate fusion_final
 
 R
@@ -44,7 +44,8 @@ devtools::install_github("carbocation/plink2R/plink2R", ref="carbocation-permit-
 
 # Create ldsc_R environment from \~/rtwas folder
 
-```{bash, eval=F}
+
+```bash
 cd ~/rtwas
 
 wget https://www.dropbox.com/s/4d8pd8yie3wconv/ldsc_R_environment.yml 
@@ -74,7 +75,8 @@ conda env create -f ldsc_R_environment.yml
 
 # Decompress files
 
-```{bash, eval=F}
+
+```bash
 gunzip schizophrenia_EUR.tsv.gz 
 tar zxvf FUSION_weights.tgz 
 tar zxvf 1000G_ref_panel.tgz 
@@ -97,7 +99,8 @@ unzip fusion.zip
 
 # use `munge_sumstats.py` script from the `ldsc` pipeline to remove rare variants or other variants that offend typical QC criteria (<https://github.com/bulik/ldsc>)
 
-```{bash, eval=F}
+
+```bash
 conda activate ldsc_R 
 
 ~/ldsc/munge_sumstats.py --sumstats schizophrenia_EUR.tsv --out schizophrenia.processed --snp ID --a1 A1 --a2 A2 --p PVAL --N-col NEFF --info IMPINFO --chunksize 500000
@@ -106,7 +109,8 @@ conda activate ldsc_R
 
 # run the rTWAS
 
-```{bash, eval=F}
+
+```bash
 conda activate fusion_final
 
 Rscript --verbose --no-save fusion_twas-master/FUSION.assoc_test.R \
@@ -130,7 +134,8 @@ features
 
 # run the conditional analysis
 
-```{bash, eval=F}
+
+```bash
 
 Rscript fusion_twas-master/FUSION.post_process.R \
 --input schizophrenia.chr20.dat.Sig \
