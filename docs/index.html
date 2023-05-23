@@ -358,22 +358,22 @@ display: none;
 
 
 <div id="create-an-rtwas-folder-and-enter-it" class="section level1">
-<h1>create an rTWAS folder and enter it</h1>
+<h1>Create an rTWAS folder and enter it</h1>
 <p><code>mkdir -p ~/rtwas cd ~/rtwas</code></p>
 </div>
 <div id="create-fusion_final-environment" class="section level1">
-<h1>create fusion_final environment</h1>
+<h1>Create fusion_final environment</h1>
 <p><code>wget https://raw.githubusercontent.com/rodrigoduarte88/neuro_rTWAS/main/fusion_final_environment.yml</code></p>
 <p><code>conda env create -f fusion_final_environment.yml</code></p>
 </div>
 <div id="change-name-of-some-libraries" class="section level1">
-<h1>change name of some libraries</h1>
+<h1>Change name of some libraries</h1>
 <pre class="bash"><code>cd ~/miniconda3/envs/fusion_final/lib 
 mv liblapack.so libRlapack.so 
 mv libblas.so libRblas.so</code></pre>
 </div>
 <div id="start-r-and-manually-install-plink2r-library" class="section level1">
-<h1>start R and manually install plink2R library</h1>
+<h1>Start R and manually install plink2R library</h1>
 <pre class="bash"><code>conda activate fusion_final
 
 R
@@ -381,13 +381,13 @@ R
 devtools::install_github(&quot;carbocation/plink2R/plink2R&quot;, ref=&quot;carbocation-permit-r361&quot;)</code></pre>
 </div>
 <div id="create-ldsc_r-environment" class="section level1">
-<h1>create ldsc_R environment</h1>
+<h1>Create ldsc_R environment</h1>
 <pre class="bash"><code>wget https://www.dropbox.com/s/4d8pd8yie3wconv/ldsc_R_environment.yml 
 
 conda env create -f ldsc_R_environment.yml</code></pre>
 </div>
 <div id="download-gwas-summary-statistics-from-the-pgc-website-european-subset-schizophrenia" class="section level1">
-<h1>download GWAS summary statistics from the PGC website (European
+<h1>Download GWAS summary statistics from the PGC website (European
 subset, schizophrenia)</h1>
 <p><code>wget https://figshare.com/ndownloader/files/34517828 -O schizophrenia_EUR.tsv.gz</code></p>
 </div>
@@ -408,7 +408,7 @@ subset, schizophrenia)</h1>
 <p><code>git clone https://github.com/bulik/ldsc.git</code></p>
 </div>
 <div id="decompress-files" class="section level1">
-<h1>decompress files</h1>
+<h1>Decompress files</h1>
 <pre class="bash"><code>gunzip schizophrenia_EUR.tsv.gz 
 tar zxvf FUSION_weights.tgz 
 tar zxvf 1000G_ref_panel.tgz 

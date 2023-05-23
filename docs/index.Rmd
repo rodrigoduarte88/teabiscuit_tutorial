@@ -12,17 +12,17 @@ editor_options:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# create an rTWAS folder and enter it
+# Create an rTWAS folder and enter it
 
 `mkdir -p ~/rtwas cd ~/rtwas`
 
-# create fusion_final environment
+# Create fusion_final environment
 
 `wget https://raw.githubusercontent.com/rodrigoduarte88/neuro_rTWAS/main/fusion_final_environment.yml`
 
 `conda env create -f fusion_final_environment.yml`
 
-# change name of some libraries
+# Change name of some libraries
 
 ```{bash, eval=F}
 cd ~/miniconda3/envs/fusion_final/lib 
@@ -30,7 +30,7 @@ mv liblapack.so libRlapack.so
 mv libblas.so libRblas.so
 ```
 
-# start R and manually install plink2R library
+# Start R and manually install plink2R library
 
 ```{bash, eval=F}
 conda activate fusion_final
@@ -40,7 +40,7 @@ R
 devtools::install_github("carbocation/plink2R/plink2R", ref="carbocation-permit-r361")
 ```
 
-# create ldsc_R environment
+# Create ldsc_R environment
 
 ```{bash, eval=F}
 wget https://www.dropbox.com/s/4d8pd8yie3wconv/ldsc_R_environment.yml 
@@ -48,7 +48,7 @@ wget https://www.dropbox.com/s/4d8pd8yie3wconv/ldsc_R_environment.yml
 conda env create -f ldsc_R_environment.yml
 ```
 
-# download GWAS summary statistics from the PGC website (European subset, schizophrenia)
+# Download GWAS summary statistics from the PGC website (European subset, schizophrenia)
 
 `wget https://figshare.com/ndownloader/files/34517828 -O schizophrenia_EUR.tsv.gz`
 
@@ -68,7 +68,7 @@ conda env create -f ldsc_R_environment.yml
 
 `git clone https://github.com/bulik/ldsc.git`
 
-# decompress files
+# Decompress files
 
 ```{bash, eval=F}
 gunzip schizophrenia_EUR.tsv.gz 
