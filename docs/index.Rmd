@@ -47,9 +47,9 @@ devtools::install_github("carbocation/plink2R/plink2R", ref="carbocation-permit-
 ```{bash, eval=F}
 cd ~/rtwas
 
-wget https://www.dropbox.com/s/4d8pd8yie3wconv/ldsc_R_environment.yml 
+wget https://www.dropbox.com/s/9cvovht5hbp5mho/ldsc_environment.yml
 
-conda env create -f ldsc_R_environment.yml
+conda env create -f ldsc_environment.yml
 ```
 
 # Download GWAS summary statistics from the PGC website (European subset, schizophrenia)
@@ -98,9 +98,9 @@ unzip fusion.zip
 # use `munge_sumstats.py` script from the `ldsc` pipeline to remove rare variants or other variants that offend typical QC criteria (<https://github.com/bulik/ldsc>)
 
 ```{bash, eval=F}
-conda activate ldsc_R 
+conda activate ldsc 
 
-~/ldsc/munge_sumstats.py --sumstats schizophrenia_EUR.tsv --out schizophrenia.processed --snp ID --a1 A1 --a2 A2 --p PVAL --N-col NEFF --info IMPINFO --chunksize 500000
+~/rtwas/ldsc/munge_sumstats.py --sumstats schizophrenia_EUR.tsv --out schizophrenia.processed --snp ID --a1 A1 --a2 A2 --p PVAL --N-col NEFF --info IMPINFO --chunksize 500000
 
 ```
 

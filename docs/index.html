@@ -385,9 +385,9 @@ devtools::install_github(&quot;carbocation/plink2R/plink2R&quot;, ref=&quot;carb
 <h1>Create ldsc_R environment from ~/rtwas folder</h1>
 <pre class="bash"><code>cd ~/rtwas
 
-wget https://www.dropbox.com/s/4d8pd8yie3wconv/ldsc_R_environment.yml 
+wget https://www.dropbox.com/s/9cvovht5hbp5mho/ldsc_environment.yml
 
-conda env create -f ldsc_R_environment.yml</code></pre>
+conda env create -f ldsc_environment.yml</code></pre>
 </div>
 <div id="download-gwas-summary-statistics-from-the-pgc-website-european-subset-schizophrenia" class="section level1">
 <h1>Download GWAS summary statistics from the PGC website (European
@@ -434,9 +434,9 @@ unzip fusion.zip</code></pre>
 <h1>use <code>munge_sumstats.py</code> script from the <code>ldsc</code>
 pipeline to remove rare variants or other variants that offend typical
 QC criteria (<a href="https://github.com/bulik/ldsc" class="uri">https://github.com/bulik/ldsc</a>)</h1>
-<pre class="bash"><code>conda activate ldsc_R 
+<pre class="bash"><code>conda activate ldsc 
 
-~/ldsc/munge_sumstats.py –-sumstats schizophrenia_EUR.tsv -–out schizophrenia.processed -–snp ID -–a1 A1 -–a2 A2 -–p PVAL -–N-col NEFF -–info IMPINFO -–chunksize 500000
+~/rtwas/ldsc/munge_sumstats.py --sumstats schizophrenia_EUR.tsv --out schizophrenia.processed --snp ID --a1 A1 --a2 A2 --p PVAL --N-col NEFF --info IMPINFO --chunksize 500000
 </code></pre>
 </div>
 <div id="run-the-rtwas" class="section level1">
