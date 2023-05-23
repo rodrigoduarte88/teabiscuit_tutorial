@@ -1,7 +1,7 @@
 ---
 title: "TEA-BISCUIT tutorial"
 author: "by Rodrigo R. R. Duarte (rodrigo.duarte@kcl.ac.uk)"
-date: "2023-02-26"
+date: "2023-05-23"
 output: html_document
 editor_options: 
   markdown: 
@@ -14,7 +14,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Create an rTWAS folder and enter it
 
-`mkdir -p ~/rtwas cd ~/rtwas`
+`mkdir -p ~/rtwas`
+
+`cd ~/rtwas`
 
 # Create fusion_final environment
 
@@ -40,9 +42,11 @@ R
 devtools::install_github("carbocation/plink2R/plink2R", ref="carbocation-permit-r361")
 ```
 
-# Create ldsc_R environment
+# Create ldsc_R environment from \~/rtwas folder
 
 ```{bash, eval=F}
+cd ~/rtwas
+
 wget https://www.dropbox.com/s/4d8pd8yie3wconv/ldsc_R_environment.yml 
 
 conda env create -f ldsc_R_environment.yml
@@ -79,7 +83,13 @@ unzip fusion.zip
 
 # explore and pre-process GWAS results
 
-`vim schizophrenia_EUR.tsv sed -i '/^#/ d' schizophrenia_EUR.tsv`
+`head -100 schizophrenia_EUR.tsv`
+
+`tail schizophrenia_EUR.tsv`
+
+# Remove all lines that start with \#
+
+`sed -i '/^#/ d' schizophrenia_EUR.tsv`
 
 # use munge_sumstats.py script from the ldsc pipeline to remove rare variants or that offend typical QC criteria (<https://github.com/bulik/ldsc>)
 

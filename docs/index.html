@@ -11,7 +11,7 @@
 
 <meta name="author" content="by Rodrigo R. R. Duarte (rodrigo.duarte@kcl.ac.uk)" />
 
-<meta name="date" content="2023-02-26" />
+<meta name="date" content="2023-05-23" />
 
 <title>TEA-BISCUIT tutorial</title>
 
@@ -352,14 +352,15 @@ display: none;
 
 <h1 class="title toc-ignore">TEA-BISCUIT tutorial</h1>
 <h4 class="author">by Rodrigo R. R. Duarte (<a href="mailto:rodrigo.duarte@kcl.ac.uk" class="email">rodrigo.duarte@kcl.ac.uk</a>)</h4>
-<h4 class="date">2023-02-26</h4>
+<h4 class="date">2023-05-23</h4>
 
 </div>
 
 
 <div id="create-an-rtwas-folder-and-enter-it" class="section level1">
 <h1>Create an rTWAS folder and enter it</h1>
-<p><code>mkdir -p ~/rtwas cd ~/rtwas</code></p>
+<p><code>mkdir -p ~/rtwas</code></p>
+<p><code>cd ~/rtwas</code></p>
 </div>
 <div id="create-fusion_final-environment" class="section level1">
 <h1>Create fusion_final environment</h1>
@@ -380,9 +381,11 @@ R
 
 devtools::install_github(&quot;carbocation/plink2R/plink2R&quot;, ref=&quot;carbocation-permit-r361&quot;)</code></pre>
 </div>
-<div id="create-ldsc_r-environment" class="section level1">
-<h1>Create ldsc_R environment</h1>
-<pre class="bash"><code>wget https://www.dropbox.com/s/4d8pd8yie3wconv/ldsc_R_environment.yml 
+<div id="create-ldsc_r-environment-from-rtwas-folder" class="section level1">
+<h1>Create ldsc_R environment from ~/rtwas folder</h1>
+<pre class="bash"><code>cd ~/rtwas
+
+wget https://www.dropbox.com/s/4d8pd8yie3wconv/ldsc_R_environment.yml 
 
 conda env create -f ldsc_R_environment.yml</code></pre>
 </div>
@@ -416,7 +419,12 @@ unzip fusion.zip</code></pre>
 </div>
 <div id="explore-and-pre-process-gwas-results" class="section level1">
 <h1>explore and pre-process GWAS results</h1>
-<p><code>vim schizophrenia_EUR.tsv sed -i &#39;/^#/ d&#39; schizophrenia_EUR.tsv</code></p>
+<p><code>head -100 schizophrenia_EUR.tsv</code></p>
+<p><code>tail schizophrenia_EUR.tsv</code></p>
+</div>
+<div id="remove-all-lines-that-start-with" class="section level1">
+<h1>Remove all lines that start with #</h1>
+<p><code>sed -i &#39;/^#/ d&#39; schizophrenia_EUR.tsv</code></p>
 </div>
 <div id="use-munge_sumstats.py-script-from-the-ldsc-pipeline-to-remove-rare-variants-or-that-offend-typical-qc-criteria-httpsgithub.combulikldsc" class="section level1">
 <h1>use munge_sumstats.py script from the ldsc pipeline to remove rare
