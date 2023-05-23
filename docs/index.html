@@ -400,9 +400,6 @@ quit(&quot;no&quot;)</code></pre>
 wget https://www.dropbox.com/s/9cvovht5hbp5mho/ldsc_environment.yml
 
 conda env create -f ldsc_environment.yml
-
-# Adapt munge_sumstats.py script to ask it to run python2, not &quot;any python available&quot;
-sed -i &#39;s|#!/usr/bin/env python|#!/usr/bin/env python2|g&#39; ~/rtwas/ldsc/munge_sumstats.py 
 </code></pre>
 </div>
 </div>
@@ -429,6 +426,9 @@ gunzip schizophrenia_EUR.tsv.gz
 tar zxvf FUSION_weights.tgz 
 tar zxvf 1000G_ref_panel.tgz 
 unzip fusion.zip
+
+# Adapt munge_sumstats.py script to ask it to run python2, not &quot;any python available&quot;
+sed -i &#39;s|#!/usr/bin/env python|#!/usr/bin/env python2|g&#39; ~/rtwas/ldsc/munge_sumstats.py 
 </code></pre>
 </div>
 <div id="explore-and-pre-process-gwas-results" class="section level1">
